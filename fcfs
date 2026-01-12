@@ -1,0 +1,57 @@
+#include <iostream>
+using namespace std;
+struct process {
+    int pid;
+    int at;
+    int bt;
+    int ft;
+    int tat;
+    int wt;
+};
+void finish_time(process proc[],int n){
+    proc[0].ft=proc[0].bt;
+    for(int i=1;i<n;i++){
+        proc[i].ft=proc[i-1].ft+proc[i].bt;
+    }
+}
+void turn_around_time(process proc[],int n){
+    for(int i=0;i<n;i++){
+        proc[i].tat=proc[i].ft-proc[i].at;
+    }
+}
+void waiting_time(process proc[],int n){
+    for(int i=0;i<n;i++){
+        proc[i].wt=proc[i].tat-proc[i].bt;
+    }
+}
+void fcfc(process proc[],int n){
+    finish_time(proc,n);
+    turn_around_time(proc,n);
+    waiting_time(proc,n);
+    
+}
+void display(process proc[],int n){
+    cout<<"pid\tat\nbt\nft\ntat\nwt";
+    for(int i=0;i<n;i++){
+        cout<<proc[i].pid<<"\t\t"<<proc[i].at<<"\t\t"<<proc[i].bt<<"\t\t"<<proc[i].ft<<"\t\t"<<proc[i].tat<<"\t\t"<<proc[i].wt<<endl;
+    }
+    float sum=0;
+    for(int i=0;i<n;i++){
+        sum=sum+proc[i].tat;
+    }
+    cout<<"avg of tat="<<sum/n<<endl;
+    float su=0;
+    for(int i=0;i<n;i++){
+        su=su+proc[i].wt;
+    }
+    
+    cout<<"avg of wt"<<su/n;
+    
+}
+int main(){
+    int n=4;
+    process proc[n]={{1,0,10},{2,1,6},{3,3,2},{4,5,4}};
+    fcfc(proc,n);
+    display(proc,n);
+    return 0;
+}
